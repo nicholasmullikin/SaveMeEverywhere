@@ -69,6 +69,12 @@ int lon;
 
 IridiumSBD modem(IridiumSerial);
 
+
+//Button
+
+int previousBtn = 0;
+int currentBtn =0;
+
 void acceler() {
    sensors_event_t event;
   accel.getEvent(&event);
@@ -307,23 +313,34 @@ void setup()
 
   IridiumSerial.begin(19200);
 
-  ble.println(F("Starting modem..."));
-  err = modem.begin();
-  if (err != ISBD_SUCCESS)
-  {
-    ble.print(F("Begin failed: error "));
-    ble.println(err);
-    if (err == ISBD_NO_MODEM_DETECTED)
-      ble.println(F("No modem detected: check wiring."));
-    return;
-  }
+//  ble.println(F("Starting modem..."));
+//  err = modem.begin();
+//  if (err != ISBD_SUCCESS)
+//  {
+//    ble.print(F("Begin failed: error "));
+//    ble.println(err);
+//    if (err == ISBD_NO_MODEM_DETECTED)
+//      ble.println(F("No modem detected: check wiring."));
+//    return;
+//  }
+
+  //Button
+
+  pinMode(A0, INPUT);
 }
+
+
 
 void loop()
 {
   /* Get a new sensor event */
   acceler();
-
+  
+  currentBtn = analogRead(A0);
+  if (currentBtn == 1023 && previousBtn == 1023) {
+    inDanger = 1;
+  }
+  previousBtn = currentBtn;
   if (inDanger == 1){
     findGPS();
 

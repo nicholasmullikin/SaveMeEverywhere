@@ -1,6 +1,6 @@
 #include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 #include <Arduino.h>
-
+#include <SoftwareSerial.h>
 #include "wiring_private.h" // pinPeripheral() function
 /*
  * BasicSend
@@ -18,11 +18,11 @@
  * works fine as well.
  */
 
-Uart Serial2 (&sercom1, 11, 10, SERCOM_RX_PAD_0, UART_TX_PAD_2);
+//Uart Serial2 (&sercom1, 11, 10, SERCOM_RX_PAD_0, UART_TX_PAD_2);
 
 
-#define IridiumSerial Serial2
-//SoftwareSerial IridiumSerial(2, 3);
+//#define IridiumSerial Serial2
+SoftwareSerial IridiumSerial(2, 3);
 #define DIAGNOSTICS true // Change this to see diagnostics
 
 
@@ -33,8 +33,8 @@ IridiumSBD modem(IridiumSerial);
 void setup()
 {
 
-  pinPeripheral(10, PIO_SERCOM);
-  pinPeripheral(11, PIO_SERCOM);
+  //pinPeripheral(10, PIO_SERCOM);
+  //pinPeripheral(11, PIO_SERCOM);
   int signalQuality = -1;
   int err;
 
@@ -44,7 +44,7 @@ void setup()
   while (!Serial);
 
   // Start the serial port connected to the satellite modem
-  IridiumSerial.begin(9600);
+  IridiumSerial.begin(11920);
 
   // Begin satellite modem operation
   Serial.println(F("Starting modem..."));
