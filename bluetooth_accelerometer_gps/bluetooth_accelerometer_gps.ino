@@ -175,11 +175,11 @@ void findGPS(){
         if (GPS.lat == 'S') lat *= -1;
         lon = GPS.longitude_fixed;
         if (GPS.lon == 'W') lon *= -1;
-        ble.print("AT+BLEUARTTX=");
+        ble.print("AT+BLEUARTTX=Lat: ");
         ble.print(lat);
-        ble.print(", ");
+        ble.print(", Lon: ");
         ble.print(lon);
-        ble.print("\\n");
+        ble.println("\\n");
       }
     }
 }
@@ -211,9 +211,10 @@ void sendSatComm(){
     ble.print("AT+BLEUARTTX=");
     ble.print(F("sendSBDText failed: error "));
     ble.println(err);
-    if (err == ISBD_SENDRECEIVE_TIMEOUT)
-    ble.print("AT+BLEUARTTX=");
+    if (err == ISBD_SENDRECEIVE_TIMEOUT){
+      ble.print("AT+BLEUARTTX=");
       ble.println(F("Try again with a better view of the sky."));
+    }
   }
   else {
     ble.print("AT+BLEUARTTX=");
@@ -239,7 +240,7 @@ void sendLatLong(){
     ble.print(lat);
     ble.print(", ");
     ble.print(lon);
-    ble.print("\\n");
+    ble.println("\\n");
     delay(500);
   
   Serial2.print(lat);
@@ -344,8 +345,13 @@ void loop()
   if (inDanger == 1){
     findGPS();
 
-     sendSatComm();
+    //sendSatComm();
     //sendLatLong();
+
+
+    ble.println("AT+BLEUARTTX=Triggering Distress Call!\\n");
+    
+    delay(2000);
   }
   delay(100);
 }

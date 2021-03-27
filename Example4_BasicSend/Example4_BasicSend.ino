@@ -22,7 +22,7 @@
 
 
 //#define IridiumSerial Serial2
-SoftwareSerial IridiumSerial(2, 3);
+SoftwareSerial IridiumSerial(3, 4);
 #define DIAGNOSTICS true // Change this to see diagnostics
 
 
